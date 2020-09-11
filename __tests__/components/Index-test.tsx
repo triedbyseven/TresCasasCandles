@@ -11,6 +11,6 @@ it('renders correctly', async () => {
         <NavigationContainer>
             <Index />
         </NavigationContainer>
-    );
+    ).toJSON();
     await act(async () => { expect(result).toMatchSnapshot(); })
 });
