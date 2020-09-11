@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
  
 const Index: React.SFC<IndexProps> = () => {
     return ( 
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         </Stack.Navigator>
      );
 }
