@@ -12,6 +12,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { WithApolloProvider } from './cache/setup';
 
 const App = () => {
   return (
@@ -25,4 +26,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default WithApolloProvider(App);
