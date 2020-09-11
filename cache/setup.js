@@ -1,9 +1,10 @@
 import React from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from "@apollo/client";
+import fetch from 'cross-fetch';
 
 const client = new ApolloClient({
-    uri: 'https://pokeapi-graphiql.herokuapp.com/',
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    link: new HttpLink({ uri: '/graphql', fetch })
 })
 
 export const WithApolloProvider = (Component) => {
