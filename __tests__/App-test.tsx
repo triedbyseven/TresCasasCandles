@@ -15,6 +15,5 @@ it('renders correctly', () => {
     <MockedProvider>
       <App />
     </MockedProvider>
-    
   );
 });
