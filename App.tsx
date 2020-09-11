@@ -14,8 +14,6 @@ import {
   StatusBar,
 } from 'react-native';
 
-declare const global: {HermesInternal: null | {}};
-
 const App = () => {
   return (
     <>
