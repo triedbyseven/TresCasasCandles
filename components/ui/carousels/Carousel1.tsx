@@ -26,10 +26,8 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
     
     const onScrollConfig = {
         useNativeDriver: true,
-        listener: event => {
+        listener: (event): any => {
             const offsetY = event.nativeEvent.contentOffset.y;
-            // do something special
-            console.log(offsetY);
         },
     };
 
