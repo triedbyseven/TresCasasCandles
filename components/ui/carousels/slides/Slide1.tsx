@@ -8,33 +8,37 @@ export interface Slide1Props {
  
 const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
     return ( 
-        <View> 
-            <View style={{ width: '100%', height: '100%'}}>
+        <>
+            <View style={styles.imageContainer}>
                 <Image
-                    style={{ width: '100%', height: '100%' }}
+                    style={styles.image}
                     source={require('../../../../assets/Candle.G03.2k.png')}
                 />
             </View>
-            <View style={{
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
-                width: '100%',
-                paddingHorizontal: 25,
-                marginBottom: 30,
-            }}>
+            <View style={styles.contentContainer}>
                 <Text style={styles.title}>Gardenia scented candle</Text>
                 <Text style={styles.subTitle}>US $24.99</Text>
             </View>
-        </View>
-
+        </>
      );
 };
 
 const styles = StyleSheet.create({
+    imageContainer: {
+        width: '100%', 
+        height: '100%'
+    },
+    image: {
+        width: '100%', 
+        height: '100%'
+    },
     contentContainer: {
-        paddingHorizontal: 30,
-        marginBottom: 30
+        position: 'absolute',
+        left: 0,
+        bottom: 0,
+        width: '100%',
+        paddingHorizontal: 25,
+        marginBottom: 30,
     },
     title: {
         fontSize: 30,
