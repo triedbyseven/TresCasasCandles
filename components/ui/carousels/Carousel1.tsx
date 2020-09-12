@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View, Animated } from "react-native";
+import { Platform, Dimensions, StyleSheet, View, Animated } from "react-native";
 import Slide1 from './slides/Slide1';
 
 export interface Carousel1Props {
@@ -49,7 +49,7 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
                 onScroll={onScrollEvent}
                 style={styles.scrollView}
                 horizontal={true}
-                decelerationRate={0}
+                decelerationRate={Platform.OS === 'ios' ? 'fast' : 'normal'}
                 snapToInterval={SCREEN_WIDTH - 110}
                 snapToAlignment="start"
                 contentContainerStyle={{ paddingLeft: 20 }}
