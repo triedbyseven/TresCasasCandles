@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 40,
         color: '#263150',
-        paddingLeft: 25
+        paddingLeft: 35,
+        marginBottom: 25,
     }
 });
  
