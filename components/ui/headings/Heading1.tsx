@@ -12,7 +12,8 @@ const Heading1: React.SFC<Heading1Props> = ({ text }) => {
 const styles = StyleSheet.create({
     text: {
         fontSize: 40,
-        color: '#263150'
+        color: '#263150',
+        paddingLeft: 25
     }
 });
  
