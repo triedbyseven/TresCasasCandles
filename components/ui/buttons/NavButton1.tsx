@@ -12,7 +12,7 @@ const NavButton1: React.SFC<NavButton1Props> = ({ text }) => {
                     onPress={() => console.log('Pressed')}
                     style={styles.button}
                  >
-                    <Text>{text}</Text>
+                    <Text style={styles.text}>{text}</Text>
                 </TouchableOpacity> :
                 <TouchableNativeFeedback
                     onPress={() => console.log('Pressed')}
@@ -21,7 +21,7 @@ const NavButton1: React.SFC<NavButton1Props> = ({ text }) => {
                     background={TouchableNativeFeedback.Ripple('rgba(0,0,0.45)', false)}
                 >
                     <View style={styles.button}>
-                        <Text>{text}</Text>
+                        <Text style={styles.text}>{text}</Text>
                     </View>
                 </TouchableNativeFeedback>
      );
@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         borderRadius: 30,
+    },
+    text: {
+        fontSize: 14
     }
 });
  
