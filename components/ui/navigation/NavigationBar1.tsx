@@ -10,7 +10,7 @@ const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
     return ( 
         <View style={styles.container}>
             <View style={styles.innerContainer}>
-                <NavButton1 />
+                <NavButton1 text="Home" />
             </View>
         </View>
     );
