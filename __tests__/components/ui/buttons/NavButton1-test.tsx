@@ -12,7 +12,5 @@ it('takes text prop as arguments', () => {
     const testRenderer = renderer.create(<NavButton1 text="Home" />);
     const testInstance = testRenderer.root;
 
-    console.log(testInstance.props)
-
     expect(testInstance.props).toEqual({ text: "Home"});
 });
