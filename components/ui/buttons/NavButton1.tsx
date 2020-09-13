@@ -2,17 +2,17 @@ import React from 'react';
 import { Platform, StyleSheet, TouchableOpacity, TouchableNativeFeedback, View, Text } from 'react-native';
 
 export interface NavButton1Props {
-    
+    text: string;
 }
  
-const NavButton1: React.SFC<NavButton1Props> = () => {
+const NavButton1: React.SFC<NavButton1Props> = ({ text }) => {
     return ( 
             Platform.OS === 'ios' ?
                 <TouchableOpacity
                     onPress={() => console.log('Pressed')}
                     style={styles.button}
                  >
-                    <Text>Home</Text>
+                    <Text>{text}</Text>
                 </TouchableOpacity> :
                 <TouchableNativeFeedback
                     onPress={() => console.log('Pressed')}
@@ -21,7 +21,7 @@ const NavButton1: React.SFC<NavButton1Props> = () => {
                     background={TouchableNativeFeedback.Ripple('rgba(0,0,0.45)', false)}
                 >
                     <View style={styles.button}>
-                        <Text>Home</Text>
+                        <Text>{text}</Text>
                     </View>
                 </TouchableNativeFeedback>
      );
