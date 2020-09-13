@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     slide: {
         position: "relative",
         width: SCREEN_WIDTH - 135,
-        height: 402,
+        height: 450,
         backgroundColor: '#EDDEE1',
         borderRadius: 16,
         marginLeft: 10,
