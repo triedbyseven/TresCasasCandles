@@ -19,7 +19,7 @@ const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        paddingVertical: 30,
+        paddingVertical: 22,
         paddingHorizontal: 40,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
