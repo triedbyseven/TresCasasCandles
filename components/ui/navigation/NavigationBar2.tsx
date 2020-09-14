@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Animated, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native';
 
 export interface NavigationBar2Props {
     
@@ -35,7 +34,6 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
                         <Text style={styles.text}>T-Shirt</Text>
                     </View>
                 </Animated.ScrollView>
-
             </View>
         </View> 
     );
@@ -43,9 +41,8 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.3,
+        flex: 0.1,
         justifyContent: 'center',
-        borderWidth: 1,
     },
     innerContainer: {
         paddingVertical: 5,
