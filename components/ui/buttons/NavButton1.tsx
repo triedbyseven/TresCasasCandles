@@ -1,27 +1,66 @@
-import React from 'react';
-import { Platform, StyleSheet, TouchableOpacity, TouchableNativeFeedback, View, Text } from 'react-native';
+import React, { useEffect, useState, memo } from 'react';
+import { Animated, Platform, StyleSheet, TouchableHighlight, TouchableNativeFeedback, View, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 export interface NavButton1Props {
+    index: number;
+    currentMenuIndex: number;
     text: string;
+    icon: string;
+    onPressMenuItem: any;
+    updater: any;
+    animate: any;
 }
  
-const NavButton1: React.SFC<NavButton1Props> = ({ text }) => {
+const NavButton1: React.SFC<NavButton1Props> = ({ text, icon, index, currentMenuIndex, onPressMenuItem, updater, animate }) => {
+    const [state, updateState] = useState({ xCoord: 0, width: 0, height: 0, index: 0 });
+
+    useEffect(() => {
+        if(currentMenuIndex === index) animate(state);
+    }, [state])
+
     return ( 
             Platform.OS === 'ios' ?
-                <TouchableOpacity
-                    onPress={() => console.log('Pressed')}
+                (
+                <TouchableHighlight
+                    activeOpacity={0.9}
+                    underlayColor='#EDF1F7'
                     style={styles.button}
-                 >
-                    <Text style={styles.text}>{text}</Text>
-                </TouchableOpacity> :
+                    onPress={() => onPressMenuItem(state)}
+                    onLayout={(event) => {
+                        var { x, width, height } = event.nativeEvent.layout;
+                        updateState({ xCoord: x, width: width, height: height, index: index });
+                    }}
+                >
+                    <View style={{ flexDirection: 'row',alignItems: 'center', justifyContent: 'center' }}>
+                        <Icon
+                            name={icon}
+                            size={24}
+                            color={currentMenuIndex === index ? '#222B45' : '#C5CEE0'}
+                        />
+                        <Animated.Text style={[styles.text, { opacity: currentMenuIndex == index ? 1 : 0 }, { position: currentMenuIndex === index ? 'relative' : 'absolute' }]}>{text}</Animated.Text>
+                    </View>
+                </TouchableHighlight>
+                ) :
                 <TouchableNativeFeedback
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => onPressMenuItem(state)}
                     useForeground={true}
                     delayPressIn={0}
-                    background={TouchableNativeFeedback.Ripple('rgba(0,0,0.45)', false)}
+                    background={TouchableNativeFeedback.Ripple('rgba(237,241,247,0.25)', false)}
+                    onLayout={(event) => {
+                        var { x, width, height } = event.nativeEvent.layout;
+                        updateState({ xCoord: x, width: width, height: height, index: index });
+                    }}
                 >
                     <View style={styles.button}>
-                        <Text style={styles.text}>{text}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <Icon
+                                name={icon}
+                                size={24}
+                                color={currentMenuIndex === index ? '#222B45' : '#C5CEE0'}
+                            />
+                        <Animated.Text style={[styles.text, { opacity: currentMenuIndex == index ? 1 : 0 }, { position: currentMenuIndex === index ? 'relative' : 'absolute' }]}>{text}</Animated.Text>
+                        </View>
                     </View>
                 </TouchableNativeFeedback>
      );
@@ -29,14 +68,17 @@ const NavButton1: React.SFC<NavButton1Props> = ({ text }) => {
 
 const styles = StyleSheet.create({
     button: {
+        zIndex: 2,
         overflow: 'hidden',
         paddingVertical: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
         borderRadius: 30,
     },
     text: {
-        fontSize: 14
+        position: 'absolute',
+        fontSize: 14,
+        marginLeft: 10,
     }
 });
  
-export default NavButton1;
+export default memo(NavButton1);

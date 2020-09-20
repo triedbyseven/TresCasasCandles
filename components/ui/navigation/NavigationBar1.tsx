@@ -1,16 +1,103 @@
-import React from 'react';
-import { StyleSheet, View } from "react-native";
+import React, { useRef, useState, useEffect } from 'react';
+import { Animated, StyleSheet, View } from "react-native";
 import NavButton1 from '../buttons/NavButton1';
+import { menuItems } from '../../../data/components/ui/navigation/navigationbar1-data';
 
-export interface NavigationBar1Props {
-    
-}
+export interface NavigationBar1Props {};
  
 const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
+    const [state, updateState] = useState({ xCoord: 0, width: 0, height: 0, index: 0 });
+    const [isAnimating, updateIsAnimating] = useState(false);
+
+    const selectorAnim = useRef(new Animated.ValueXY()).current;
+    const widthAnim = useRef(new Animated.Value(0)).current;
+    const ballWidthAnim = useRef(new Animated.Value(10)).current;
+    const ballHeightAnim = useRef(new Animated.Value(10)).current;
+
+
+    const onPressMenuItem = (state: any) => {
+        if(isAnimating) return;
+        updateState(state);
+    };
+
+    const animate = (layout: any): void => {
+        const { xCoord, width, height } = layout;
+        updateIsAnimating(true);
+        shrinkBallAnimation(xCoord, width, height);
+    };
+
+    const shrinkBallAnimation = (xCoord: number, width: number, height: number) => {
+        Animated.parallel([
+            Animated.timing(ballWidthAnim, {
+                useNativeDriver: false,
+                toValue: 10,
+                duration: 250
+            }),
+            Animated.timing(ballHeightAnim, {
+                useNativeDriver: false,
+                toValue: 10,
+                duration: 250
+            })
+        ]).start(() => moveBallAnimation(xCoord, width, height));
+    };
+
+    const moveBallAnimation = (xCoord: number, width: number, height: number) => {
+        Animated.parallel([
+            Animated.spring(selectorAnim, {
+                useNativeDriver: false,
+                toValue: {
+                    x: xCoord,
+                    y: 0
+                },
+                speed: 20,
+            }),
+            Animated.timing(widthAnim, {
+                useNativeDriver: false,
+                toValue: width,
+                duration: 250
+            })
+        ]).start(expandBallAnimation(width, height));
+    };
+
+    const expandBallAnimation = (width: number, height: number): any => {
+        Animated.parallel([
+            Animated.timing(ballWidthAnim, {
+                useNativeDriver: false,
+                toValue: width,
+                duration: 250
+            }),
+            Animated.timing(ballHeightAnim, {
+                useNativeDriver: false,
+                toValue: height,
+                duration: 250
+            })
+        ]).start(() => updateIsAnimating(false));
+    };
+
     return ( 
         <View style={styles.container}>
-            <View style={styles.innerContainer}>
-                <NavButton1 text="Home" />
+            <View style={{ justifyContent: 'center' }}>
+                <View style={styles.innerContainer}>
+                    {menuItems.map(({index, title, icon}) => <NavButton1 
+                            key={index} 
+                            text={title} 
+                            icon={icon} 
+                            index={index}
+                            onPressMenuItem={onPressMenuItem}
+                            currentMenuIndex={state.index}
+                            updater={updateState}
+                            animate={animate}
+                        />
+                    )}
+                </View>
+                <Animated.View style={[styles.markerContainer, { width: widthAnim }, {
+                    transform: [
+                        { translateX: selectorAnim.x },
+                        { translateY: selectorAnim.y }
+                    ]
+                }]}>
+                    <Animated.View style={[styles.marker, { width: ballWidthAnim, height: ballHeightAnim }]} />
+                </Animated.View>
             </View>
         </View>
     );
@@ -20,12 +107,27 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         paddingVertical: 22,
-        paddingHorizontal: 40,
+        paddingHorizontal: 20,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
     },
     innerContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        flexWrap: 'wrap',
+        alignContent: 'stretch'
+    },
+    markerContainer: {
+        position: 'absolute',
+        zIndex: -1,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+    },
+    marker: { 
+        backgroundColor: '#EDF1F7',
+        borderRadius: 30,
     }
 });
  
