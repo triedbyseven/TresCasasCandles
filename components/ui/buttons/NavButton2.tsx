@@ -18,6 +18,7 @@ const NavButton2: React.SFC<NavButton2Props> = ({ text, index, currentMenuIndex,
 
     return ( 
         <TouchableOpacity 
+            activeOpacity={1}
             style={styles.menuItem} 
             onPress={() => onPressMenuItem(state)}
             onLayout={(event) => {
@@ -25,7 +26,7 @@ const NavButton2: React.SFC<NavButton2Props> = ({ text, index, currentMenuIndex,
                 updateState({ xCoord: x, width: width, index: index });
             }}
         >
-            <Text style={styles.text}>{text}</Text>
+            <Text style={[styles.text, { opacity: currentMenuIndex === index ? 1 : 0.25 }]}>{text}</Text>
         </TouchableOpacity>
     );
 }
