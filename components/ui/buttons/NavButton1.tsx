@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo } from 'react';
-import { Animated, Platform, StyleSheet, TouchableHighlight, TouchableNativeFeedback, View, Text } from 'react-native';
+import { Animated, Platform, StyleSheet, TouchableHighlight, TouchableNativeFeedback, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 export interface NavButton1Props {
