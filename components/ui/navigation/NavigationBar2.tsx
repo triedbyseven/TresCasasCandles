@@ -1,14 +1,18 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { Animated, StyleSheet, View, Button } from 'react-native';
 import NavButton2 from '../buttons/NavButton2';
 import { menuItems } from '../../../data/components/ui/navigation/navigationbar2-data';
 
 export interface NavigationBar2Props {};
  
 const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
-    const [state, updateState] = useState({ xCoord: 0, width: 0 });
+    const [state, updateState] = useState({ xCoord: 0, width: 0, index: 0 });
     const widthAnim = useRef(new Animated.Value(0)).current;
     const barAnim = useRef(new Animated.ValueXY()).current;
+
+    const onPressMenuItem = (state: any) => {
+        updateState(state);
+    };
 
     const animate = (layout: any): void => {
         const { xCoord, width } = layout;
@@ -17,7 +21,7 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
             Animated.spring(barAnim, {
                 useNativeDriver: false,
                 toValue: {
-                    x: xCoord,
+                    x: xCoord + 22,
                     y: 0
                 },
                 speed: 20,
@@ -27,12 +31,8 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
                 toValue: width - 44,
                 duration: 250
             })
-        ]).start()
+        ]).start();
     };
-
-    useEffect(() => {
-        animate(state)
-    },[state])
 
     return ( 
         <View style={styles.container}>
@@ -45,9 +45,22 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
                 >
                     <View>
                         <View style={styles.scrollView}>
-                             {menuItems.map(({index, title}) => <NavButton2 key={index} index={index} text={title} updater={updateState} />)}
+                             {menuItems.map(({index, title}) => <NavButton2 
+                                    key={index} 
+                                    index={index} 
+                                    currentMenuIndex={state.index} 
+                                    text={title} 
+                                    onPressMenuItem={onPressMenuItem} 
+                                    animate={animate} 
+                                />
+                             )}
                         </View>
-                        <Animated.View style={[styles.marker, barAnim.getLayout(), {width: widthAnim}]} />
+                        <Animated.View style={[styles.marker, { width: widthAnim }, {
+                            transform: [
+                                { translateX: barAnim.x },
+                                { translateY: barAnim.y }
+                            ]
+                        }]} />
                     </View>
                 </Animated.ScrollView>
             </View>
@@ -72,7 +85,6 @@ const styles = StyleSheet.create({
     marker: {
         height: 2,
         backgroundColor: 'black',
-        marginHorizontal: 22,
     }
 });
  
