@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SearchBar1 } from './';
+import ScanButton from '../buttons/ScanButton';
 
 export interface SearchContainerProps {
     
@@ -11,6 +12,7 @@ const SearchContainer: React.SFC<SearchContainerProps> = () => {
         <View style={styles.container}>
             <View style={styles.innerContainer}>
                 <SearchBar1 />
+                <ScanButton />
             </View>
         </View>
      );
