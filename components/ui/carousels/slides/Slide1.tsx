@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { IconHeart } from '../../icons';
 
 export interface Slide1Props {
     id: number;
@@ -10,13 +10,7 @@ export interface Slide1Props {
 const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
     return ( 
         <>
-            <View style={styles.favoriteIconContainer}>
-                <Icon
-                    name="heart-outline"
-                    size={20}
-                    color="black"
-                />
-            </View>
+            <IconHeart />
             <View style={styles.imageContainer}>
                 <Image
                     style={styles.image}
@@ -32,17 +26,6 @@ const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
 };
 
 const styles = StyleSheet.create({
-    favoriteIconContainer: {
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        top: 10,
-        right: 10,
-        width: 34,
-        height: 34,
-        backgroundColor: '#fff',
-        borderRadius: 30
-    },
     imageContainer: {
         width: '100%', 
         height: '100%',
