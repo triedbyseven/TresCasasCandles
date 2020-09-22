@@ -70,7 +70,7 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.1,
+        flex: 1,
         justifyContent: 'center',
     },
     innerContainer: {

@@ -17,10 +17,7 @@ const Home: React.SFC<HomeProps> = () => {
             <View style= {styles.innerContainer}>
                 <SearchBar1 />
                 <NavigationBar2 />
-                <View style={styles.featuredContainer}>
-                    <Heading1 text="Featured"/>
-                    <Carousel1 items={fakeData} />
-                </View>
+                <Carousel1 items={fakeData} />
             </View>
             <NavigationBar1 />
         </View>
@@ -29,14 +26,12 @@ const Home: React.SFC<HomeProps> = () => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         height: '100%',
         backgroundColor: '#EBC3CB'
     },
     innerContainer: {
-        flex: 1
-    },
-    featuredContainer: {
-        flex: 0.8
+        flex: 1,
     }
 });
  

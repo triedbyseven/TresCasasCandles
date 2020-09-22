@@ -6,7 +6,7 @@ export interface Heading1Props {
 }
  
 const Heading1: React.SFC<Heading1Props> = ({ text }) => {
-    return <Text style={styles.text}>{ text }</Text>;
+    return <Text style={styles.text}>{text}</Text>;
 };
 
 const styles = StyleSheet.create({

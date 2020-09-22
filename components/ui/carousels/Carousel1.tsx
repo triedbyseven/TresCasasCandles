@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, Dimensions, StyleSheet, View, Animated } from "react-native";
 import Slide1 from './slides/Slide1';
+import Heading1 from '../headings/Heading1';
 
 export interface Carousel1Props {
     items: Slide[]
@@ -43,6 +44,7 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
 
     return ( 
         <View style={styles.container}>
+            <Heading1 text="Featured" />
             <Animated.ScrollView
                 scrollEventThrottle={16}
                 showsHorizontalScrollIndicator={false}
@@ -66,17 +68,20 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 8,
         width: '100%',
+        height: '100%',
+        paddingBottom: 40,
     },
     scrollView: {
         width: "100%",
+        height: '100%',
         flexDirection: "row",
-        paddingLeft: 0
     },
     slide: {
         position: "relative",
         width: SCREEN_WIDTH - 135,
-        height: 450,
+        height: '100%',
         backgroundColor: '#EDDEE1',
         borderRadius: 16,
         marginLeft: 10,
