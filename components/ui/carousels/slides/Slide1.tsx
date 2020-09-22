@@ -14,6 +14,7 @@ const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
             <View style={styles.imageContainer}>
                 <Image
                     style={styles.image}
+                    resizeMode="contain"
                     source={require('../../../../assets/Candle.G03.2k.png')}
                 />
             </View>
