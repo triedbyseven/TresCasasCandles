@@ -1,11 +1,13 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Animated, StyleSheet, View } from "react-native";
 import NavButton1 from '../buttons/NavButton1';
 import { menuItems } from '../../../data/components/ui/navigation/navigationbar1-data';
 
-export interface NavigationBar1Props {};
+export interface NavigationBar1Props {
+    navigation: any;
+};
  
-const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
+const NavigationBar1: React.FC<NavigationBar1Props> = ({ navigation }) => {
     const [state, updateState] = useState({ xCoord: 0, width: 0, height: 0, index: 0 });
     const [isAnimating, updateIsAnimating] = useState(false);
 
@@ -15,8 +17,9 @@ const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
     const ballHeightAnim = useRef(new Animated.Value(10)).current;
 
 
-    const onPressMenuItem = (state: any) => {
+    const onPressMenuItem = (state: any, route: string) => {
         if(isAnimating) return;
+        navigation.navigate(route);
         updateState(state);
     };
 
@@ -78,11 +81,12 @@ const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
         <View style={styles.container}>
             <View style={{ justifyContent: 'center' }}>
                 <View style={styles.innerContainer}>
-                    {menuItems.map(({index, title, icon}) => <NavButton1 
+                    {menuItems.map(({index, title, icon, route}) => <NavButton1 
                             key={index} 
                             text={title} 
                             icon={icon} 
                             index={index}
+                            route={route}
                             onPressMenuItem={onPressMenuItem}
                             currentMenuIndex={state.index}
                             updater={updateState}
@@ -105,6 +109,7 @@ const NavigationBar1: React.SFC<NavigationBar1Props> = () => {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: -38,
         backgroundColor: '#fff',
         paddingTop: 22,
         paddingBottom: 6,

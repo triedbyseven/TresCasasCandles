@@ -10,9 +10,10 @@ export interface NavButton1Props {
     onPressMenuItem: any;
     updater: any;
     animate: any;
+    route: string;
 }
  
-const NavButton1: React.SFC<NavButton1Props> = ({ text, icon, index, currentMenuIndex, onPressMenuItem, updater, animate }) => {
+const NavButton1: React.SFC<NavButton1Props> = ({ text, icon, index, currentMenuIndex, onPressMenuItem, updater, animate, route }) => {
     const [state, updateState] = useState({ xCoord: 0, width: 0, height: 0, index: 0 });
 
     useEffect(() => {
@@ -26,7 +27,7 @@ const NavButton1: React.SFC<NavButton1Props> = ({ text, icon, index, currentMenu
                     activeOpacity={0.9}
                     underlayColor='#EDF1F7'
                     style={styles.button}
-                    onPress={() => onPressMenuItem(state)}
+                    onPress={() => onPressMenuItem(state, route)}
                     onLayout={(event) => {
                         var { x, width, height } = event.nativeEvent.layout;
                         updateState({ xCoord: x, width: width, height: height, index: index });
@@ -43,7 +44,7 @@ const NavButton1: React.SFC<NavButton1Props> = ({ text, icon, index, currentMenu
                 </TouchableHighlight>
                 ) :
                 <TouchableNativeFeedback
-                    onPress={() => onPressMenuItem(state)}
+                    onPress={() => onPressMenuItem(state, route)}
                     useForeground={true}
                     delayPressIn={0}
                     background={TouchableNativeFeedback.Ripple('rgba(237,241,247,0.25)', false)}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './screens/Home';
+import SubRouter from './SubRouter';
 
 export interface IndexProps {}
 
@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
  
 const Index: React.SFC<IndexProps> = () => {
     return ( 
-        <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Navigator initialRouteName="SubRouter">
+            <Stack.Screen name="SubRouter" component={SubRouter} options={{ headerShown: false, animationEnabled: false }} />
         </Stack.Navigator>
      );
 }
