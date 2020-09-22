@@ -51,7 +51,7 @@ const SearchBar1: React.SFC<SearchBar1Props> = () => {
                             onPress={() => console.log('pressed')}
                             useForeground={true}
                             delayPressIn={0}
-                            background={TouchableNativeFeedback.Ripple('rgba(0,0,0,0.25)', false)}
+                            background={TouchableNativeFeedback.Ripple('rgba(0,0,0,0.15)', false)}
                             onLayout={event => {
                                 var { width } = event.nativeEvent.layout;
                                 updateSearchWidth(width);
