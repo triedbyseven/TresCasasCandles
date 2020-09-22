@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity, TouchableNativeFeedback, View, Text } from "react-native";
 import Icon from 'react-native-vector-icons/Feather';
 import { BoxShadow } from 'react-native-shadow';
 
@@ -23,23 +23,54 @@ const SearchBar1: React.SFC<SearchBar1Props> = () => {
     };
 
     return ( 
-            <BoxShadow setting={shadowOpt}>
-                <View style={styles.searchContainer}
-                    onLayout={event => {
-                        var { width } = event.nativeEvent.layout;
-                        updateSearchWidth(width);
-                    }}
-                >
-                    <View style={styles.activateBoxIcon}>
-                        <Icon
-                            name='search'
-                            size={20}
-                            color='#C5CEE0'
-                        />
+            Platform.OS === 'ios' ? (
+                <BoxShadow setting={shadowOpt}>
+                    <TouchableOpacity
+                        activeOpacity={0.80}
+                        style={styles.searchContainer}
+                        onPress={() => console.log('pressed')}
+                        onLayout={event => {
+                            var { width } = event.nativeEvent.layout;
+                            updateSearchWidth(width);
+                        }}
+                    >
+                        <View style={styles.activateBoxIcon}>
+                            <Icon
+                                name='search'
+                                size={20}
+                                color='#C5CEE0'
+                            />
+                        </View>
+                        <Text style={styles.searchText}>Search</Text>
+                    </TouchableOpacity>
+                </BoxShadow>
+            ) : (
+                <BoxShadow setting={shadowOpt}>
+                    <View style={styles.searchOutterContainer}>
+                        <TouchableNativeFeedback
+                            onPress={() => console.log('pressed')}
+                            useForeground={true}
+                            delayPressIn={0}
+                            background={TouchableNativeFeedback.Ripple('rgba(0,0,0,0.25)', false)}
+                            onLayout={event => {
+                                var { width } = event.nativeEvent.layout;
+                                updateSearchWidth(width);
+                            }}
+                        >
+                            <View style={styles.searchContainer}>
+                                <View style={styles.activateBoxIcon}>
+                                    <Icon
+                                        name='search'
+                                        size={20}
+                                        color='#C5CEE0'
+                                    />
+                                </View>
+                                <Text style={styles.searchText}>Search</Text>
+                            </View>
+                        </TouchableNativeFeedback>
                     </View>
-                    <Text style={styles.searchText}>Search</Text>
-                </View>
-            </BoxShadow>
+                    </BoxShadow>
+            )
 
     );
 };
@@ -52,6 +83,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 6,
         paddingHorizontal: 28
+    },
+    searchOutterContainer: {
+        overflow: 'hidden',
+        flex: 1, 
+        backgroundColor: '#fff', 
+        borderRadius: 6
     },
     activateBoxIcon: {
         position: 'absolute',
