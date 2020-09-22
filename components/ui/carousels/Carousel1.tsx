@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, Dimensions, StyleSheet, View, Animated } from "react-native";
 import Slide1 from './slides/Slide1';
 import Heading1 from '../headings/Heading1';
+import { BoxShadow } from 'react-native-shadow';
 
 export interface Carousel1Props {
     items: Slide[]
@@ -32,6 +33,18 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
         },
     };
 
+    const shadowOpt = {
+        width: SCREEN_WIDTH - 135,
+        height: 48,
+        color: "#000",
+        border: 5,
+        radius: 16,
+        opacity: 0.03,
+        x: 0,
+        y: 5,
+        style: { position: 'absolute', bottom: 0, left: 0 }
+    };
+
     const onScrollEvent = Animated.event(onScrollArgMapping, onScrollConfig);
 
     const transitionAnimation = (index: number) => {
@@ -49,16 +62,18 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
                 scrollEventThrottle={16}
                 showsHorizontalScrollIndicator={false}
                 onScroll={onScrollEvent}
-                style={styles.scrollView}
                 horizontal={true}
                 decelerationRate={Platform.OS === 'ios' ? 'fast' : 'normal'}
                 snapToInterval={SCREEN_WIDTH - 110}
                 snapToAlignment="start"
-                contentContainerStyle={{ paddingLeft: 20 }}
+                contentContainerStyle={{ paddingBottom: 40, paddingLeft: 20 }}
             >
                 {items.map((item, index) => (
                     <Animated.View key={index} style={[styles.slide, { zIndex: item.id }, transitionAnimation(item.id)]}>
-                        <Slide1 id={item.id} name={item.name} />
+                        <BoxShadow setting={shadowOpt} />
+                        <View style={styles.slideContainer}>
+                            <Slide1 id={item.id} name={item.name} />
+                        </View>
                     </Animated.View>
                 ))}
             </Animated.ScrollView>
@@ -71,12 +86,12 @@ const styles = StyleSheet.create({
         flex: 8,
         width: '100%',
         height: '100%',
-        paddingBottom: 40,
     },
-    scrollView: {
-        width: "100%",
-        height: '100%',
-        flexDirection: "row",
+    slideContainer: {
+        width: '100%', 
+        height: '100%', 
+        backgroundColor: '#EEDEE1', 
+        borderRadius: 16
     },
     slide: {
         position: "relative",
@@ -85,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#EDDEE1',
         borderRadius: 16,
         marginLeft: 10,
-        marginRight: 15
+        marginRight: 15,
     }
 });
  
