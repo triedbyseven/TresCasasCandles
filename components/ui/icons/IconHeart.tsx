@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, TouchableNativeFeedback, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export interface IconHeartProps {
@@ -8,15 +8,32 @@ export interface IconHeartProps {
  
 const IconHeart: React.SFC<IconHeartProps> = () => {
     return (
-        <TouchableOpacity 
-            activeOpacity={0.65}
-            style={styles.container} onPress={() => console.log('pressed')}>
-            <Icon
-                name="heart-outline"
-                size={20}
-                color="black"
-            />
-        </TouchableOpacity>
+        Platform.OS === 'ios' ? (
+            <TouchableOpacity 
+                activeOpacity={0.65}
+                style={styles.container} 
+                onPress={() => console.log('pressed')}>
+                <Icon
+                    name="heart-outline"
+                    size={20}
+                    color="black"
+                />
+            </TouchableOpacity> 
+        ) : (
+            <TouchableNativeFeedback
+                onPress={() => console.log('pressed')}
+                useForeground={true}
+                delayPressIn={0}
+                background={TouchableNativeFeedback.Ripple('rgba(0,0,0,0.15)', false)}>
+                <View style={styles.container}>
+                    <Icon
+                        name="heart-outline"
+                        size={20}
+                        color="black"
+                    />
+                </View>
+            </TouchableNativeFeedback>
+        )
      );
 };
  
@@ -34,5 +51,6 @@ const styles = StyleSheet.create({
         height: 34,
         backgroundColor: '#fff',
         borderRadius: 30,
+        overflow: 'hidden'
     }
 });
