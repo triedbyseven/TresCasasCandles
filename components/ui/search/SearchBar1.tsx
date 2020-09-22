@@ -12,19 +12,14 @@ const SearchBar1: React.SFC<SearchBar1Props> = () => {
         <View style={styles.container}>
             <View style={styles.innerContainer}>
                 <View style={styles.searchContainer}>
-                    <View style={{ position: 'absolute', left: 14 }}>
+                    <View style={styles.activateBoxIcon}>
                         <Icon
                             name='search'
                             size={20}
                             color='#C5CEE0'
                         />
                     </View>
-                    <Text style={{
-                        fontSize: 15, 
-                        color: '#8F9BB3', 
-                        paddingVertical: 16.75,
-                        paddingHorizontal: 16.75
-                    }}>Search</Text>
+                    <Text style={styles.searchText}>Search</Text>
                 </View>
                 <View style={styles.activateBox}>
                     <Icon2
@@ -51,7 +46,7 @@ const styles = StyleSheet.create({
     searchContainer: {
         flex: 1,
         justifyContent: 'center',
-        height: 52,
+        height: 48,
         backgroundColor: '#fff',
         borderRadius: 6,
         paddingHorizontal: 28
@@ -60,10 +55,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: 48,
-        height: 52,
+        height: 48,
         backgroundColor: '#fff',
         marginLeft: 16,
         borderRadius: 6
+    },
+    searchText: {
+        fontSize: 15,
+        color: '#8F9BB3',
+        paddingVertical: 14.75,
+        paddingHorizontal: 16.75
+    },
+    activateBoxIcon: {
+        position: 'absolute',
+        left: 14 
     }
 });
  
