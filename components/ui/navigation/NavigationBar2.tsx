@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Animated, StyleSheet, View, Button } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
 import NavButton2 from '../buttons/NavButton2';
 import { menuItems } from '../../../data/components/ui/navigation/navigationbar2-data';
 

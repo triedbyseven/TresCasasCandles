@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from "react-native";
 import { fakeData } from '../../fakeData';
-import Heading1 from '../ui/headings/Heading1';
 import Carousel1 from '../ui/carousels/Carousel1';
 import NavigationBar1 from '../ui/navigation/NavigationBar1';
 import NavigationBar2 from '../ui/navigation/NavigationBar2';
