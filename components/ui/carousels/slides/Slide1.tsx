@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native';
 import { IconHeart } from '../../icons';
+import { useNavigation } from '@react-navigation/native';
 
 export interface Slide1Props {
     id: number;
@@ -8,8 +9,13 @@ export interface Slide1Props {
 }
  
 const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
+    const navigation = useNavigation();
+
     return ( 
-        <>
+        <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => navigation.navigate('ItemDetail')}
+        >
             <IconHeart />
             <View style={styles.imageContainer}>
                 <Image
@@ -22,7 +28,7 @@ const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
                 <Text style={styles.title}>Gardenia scented candle</Text>
                 <Text style={styles.subTitle}>US $24.99</Text>
             </View>
-        </>
+        </TouchableOpacity>
      );
 };
 
