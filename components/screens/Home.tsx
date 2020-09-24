@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SearchContainer } from '../ui/search';
 import NavigationBar2 from '../ui/navigation/NavigationBar2';
 import Carousel1 from '../ui/carousels/Carousel1';
@@ -10,12 +11,18 @@ export interface HomeProps {
 }
  
 const Home: React.SFC<HomeProps> = () => {
+    const insets = useSafeAreaInsets();
+
     return ( 
-        <View style= {styles.container}>
-            <SearchContainer />
-            <NavigationBar2 />
-            <Carousel1 items={fakeData} />
-        </View>
+        <>
+            <StatusBar barStyle="dark-content" backgroundColor='#EBC3CB' />
+            <View style={{ flex: 0, paddingTop: insets.top, backgroundColor: '#EBC3CB'}} />
+            <View style= {styles.container}>
+                <SearchContainer />
+                <NavigationBar2 />
+                <Carousel1 items={fakeData} />
+            </View>
+        </>
      );
 }
  

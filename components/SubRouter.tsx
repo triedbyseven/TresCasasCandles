@@ -1,8 +1,8 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import NavigationBar1 from './ui/navigation/NavigationBar1';
-
 import { createStackNavigator } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ItemDetail from './screens/ItemDetail';
 import Home from './screens/Home';
 const Stack = createStackNavigator();
@@ -12,11 +12,11 @@ export interface SubRouterProps {
 }
  
 const SubRouter: React.SFC<SubRouterProps> = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
+
     return ( 
         <>
-            <StatusBar barStyle="dark-content" backgroundColor='#EBC3CB' />
-            <SafeAreaView style={{ flex: 0, backgroundColor: '#EBC3CB' }} />
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+            <View style={{ flex: 1, paddingBottom: insets.bottom, backgroundColor: '#FFFFFF' }}>
                 <View style={styles.container}>
                     <Stack.Navigator>
                         <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animationEnabled: false }} />
@@ -24,7 +24,7 @@ const SubRouter: React.SFC<SubRouterProps> = ({ navigation }) => {
                     </Stack.Navigator> 
                     <NavigationBar1 navigation={navigation} />
                 </View>
-            </SafeAreaView>
+            </View>
         </>
     );
 }
