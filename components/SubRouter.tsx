@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import NavigationBar1 from './ui/navigation/NavigationBar1';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,13 +13,19 @@ export interface SubRouterProps {
  
 const SubRouter: React.SFC<SubRouterProps> = ({ navigation }) => {
     return ( 
-        <View style={styles.container}>
-            <Stack.Navigator>
-                <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animationEnabled: false }} />
-                <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false, animationEnabled: false }} />
-            </Stack.Navigator> 
-            <NavigationBar1 navigation={navigation} />
-        </View>
+        <>
+            <StatusBar barStyle="dark-content" backgroundColor='#EBC3CB' />
+            <SafeAreaView style={{ flex: 0, backgroundColor: '#EBC3CB' }} />
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+                <View style={styles.container}>
+                    <Stack.Navigator>
+                        <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animationEnabled: false }} />
+                        <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false, animationEnabled: false }} />
+                    </Stack.Navigator> 
+                    <NavigationBar1 navigation={navigation} />
+                </View>
+            </SafeAreaView>
+        </>
     );
 }
 
