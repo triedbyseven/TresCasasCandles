@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import NavigationBar1 from './ui/navigation/NavigationBar1';
+import { useColorAnimations } from '../animations/';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ItemDetail from './screens/ItemDetail';
@@ -12,18 +13,19 @@ export interface SubRouterProps {
 }
  
 const SubRouter: React.SFC<SubRouterProps> = ({ navigation }) => {
+    const { colorInterpolation } = useColorAnimations();
     const insets = useSafeAreaInsets();
 
     return ( 
         <>
-            <View style={{ flex: 1, paddingBottom: insets.bottom, backgroundColor: '#FFFFFF' }}>
-                <View style={styles.container}>
+            <View style={[{ flex: 1, paddingBottom: insets.bottom, backgroundColor: '#FFFFFF' }]}>
+                <Animated.View style={[styles.container, { backgroundColor: colorInterpolation }]}>
                     <Stack.Navigator>
                         <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animationEnabled: false }} />
                         <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false, animationEnabled: false }} />
-                    </Stack.Navigator> 
+                    </Stack.Navigator>
                     <NavigationBar1 navigation={navigation} />
-                </View>
+                </Animated.View>
             </View>
         </>
     );
