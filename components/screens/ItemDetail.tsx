@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, StyleSheet, TouchableHighlight, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path, Use, Defs} from 'react-native-svg';
+import { useColorAnimations } from '../../animations';
 
 export interface ItemDetailProps {
     navigation: any;
 }
  
 const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
+    const { animateColor } = useColorAnimations();
     const insets = useSafeAreaInsets();
+
+    useEffect(() => {
+        return () => animateColor(false);
+    }, []);
 
     return (
         <>
@@ -18,7 +24,10 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
                 <View style={styles.headerContainer}>
                     <TouchableHighlight 
                         activeOpacity={0.65}
-                        onPress={() => navigation.goBack()}
+                        onPress={() => {
+                            navigation.goBack();
+                            animateColor(false);
+                        }}
                     >
                         <Svg width={20} height={16} viewBox="0 0 20 16">
                             <Defs>
