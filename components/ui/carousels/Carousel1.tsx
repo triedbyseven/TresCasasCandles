@@ -3,6 +3,7 @@ import { Platform, Dimensions, StyleSheet, View, Animated } from "react-native";
 import Slide1 from './slides/Slide1';
 import Heading1 from '../headings/Heading1';
 import { BoxShadow } from 'react-native-shadow';
+import { useColorAnimations } from '../../../animations';
 
 export interface Carousel1Props {
     items: Slide[]
@@ -16,6 +17,7 @@ interface Slide {
 const SCREEN_WIDTH = (Dimensions.get("window").width);
  
 const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
+    const { animateColor } = useColorAnimations();
     const xOffset = new Animated.Value(0);
 
     const onScrollArgMapping = [{
@@ -72,7 +74,7 @@ const Carousel1: React.SFC<Carousel1Props> = ({ items }) => {
                     <Animated.View key={index} style={[styles.slide, { zIndex: item.id }, transitionAnimation(item.id)]}>
                         <BoxShadow setting={shadowOpt} />
                         <View style={styles.slideContainer}>
-                            <Slide1 id={item.id} name={item.name} />
+                            <Slide1 id={item.id} name={item.name} setAnimate={animateColor} />
                         </View>
                     </Animated.View>
                 ))}
