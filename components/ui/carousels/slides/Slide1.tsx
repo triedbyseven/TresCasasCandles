@@ -6,15 +6,19 @@ import { useNavigation } from '@react-navigation/native';
 export interface Slide1Props {
     id: number;
     name: string;
+    setAnimate: any;
 }
  
-const Slide1: React.SFC<Slide1Props> = ({ id, name }) => {
+const Slide1: React.SFC<Slide1Props> = ({ id, name, setAnimate }) => {
     const navigation = useNavigation();
 
     return ( 
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigation.navigate('ItemDetail')}
+            onPress={() => {
+                setAnimate(true);
+                navigation.navigate('ItemDetail');
+            }}
         >
             <IconHeart />
             <View style={styles.imageContainer}>
