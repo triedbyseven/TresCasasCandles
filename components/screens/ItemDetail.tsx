@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, StyleSheet, TouchableHighlight, View } from 'react-native';
+import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path, Use, Defs} from 'react-native-svg';
 import { useColorAnimations } from '../../animations';
@@ -22,8 +22,9 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
             <View style={{ flex: 0, paddingTop: insets.top, backgroundColor: '#EDDEE1' }} /> 
             <View style={styles.container}> 
                 <View style={styles.headerContainer}>
-                    <TouchableHighlight 
+                    <TouchableOpacity 
                         activeOpacity={0.65}
+                        style={styles.icon}
                         onPress={() => {
                             navigation.goBack();
                             animateColor(false);
@@ -43,12 +44,12 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
                                 fillRule="evenodd"
                             />
                         </Svg>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </View>
         </>
     );
-}
+};
  
 export default ItemDetail;
 
@@ -59,7 +60,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#EDDEE1'
     },
     headerContainer: {
+        height: 32,
         paddingHorizontal: 30,
-        paddingVertical: 7
+        marginTop: 12
     },
+    icon: {
+        width: 30, 
+        height: '100%', 
+        justifyContent: 'center', 
+        alignItems: 'center' 
+    }
 });
