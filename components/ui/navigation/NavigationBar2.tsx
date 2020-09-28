@@ -1,14 +1,17 @@
 import React, { useRef, useState } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
+import Animated, { Easing } from 'react-native-reanimated';
 import NavButton2 from '../buttons/NavButton2';
 import { menuItems } from '../../../data/components/ui/navigation/navigationbar2-data';
 
 export interface NavigationBar2Props {};
+
+const { Value, timing } = Animated;
  
 const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
     const [state, updateState] = useState({ xCoord: 0, width: 0, index: 0 });
-    const widthAnim = useRef(new Animated.Value(0)).current;
-    const barAnim = useRef(new Animated.ValueXY()).current;
+    const _transX = useRef(new Value(0)).current;
+    const _width = useRef(new Value(30)).current;
 
     const onPressMenuItem = (state: any) => {
         updateState(state);
@@ -17,21 +20,20 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
     const animate = (layout: any): void => {
         const { xCoord, width } = layout;
 
-        Animated.parallel([
-            Animated.spring(barAnim, {
-                useNativeDriver: false,
-                toValue: {
-                    x: xCoord + 22,
-                    y: 0
-                },
-                speed: 20,
-            }),
-            Animated.timing(widthAnim, {
-                useNativeDriver: false,
-                toValue: width - 44,
-                duration: 250
-            })
-        ]).start();
+        const _configTransX = {
+            duration: 250,
+            toValue: xCoord + 22,
+            easing: Easing.inOut(Easing.ease),
+        };
+
+        const _configWidth = {
+            duration: 250,
+            toValue: width - 44,
+            easing: Easing.inOut(Easing.ease),
+        };
+
+        timing(_transX, _configTransX).start();
+        timing(_width, _configWidth).start();
     };
 
     return ( 
@@ -55,10 +57,10 @@ const NavigationBar2: React.SFC<NavigationBar2Props> = () => {
                                 />
                              )}
                         </View>
-                        <Animated.View style={[styles.marker, { width: widthAnim }, {
+                        <Animated.View style={[styles.marker, { width: _width },
+                        {
                             transform: [
-                                { translateX: barAnim.x },
-                                { translateY: barAnim.y }
+                                { translateX: _transX },
                             ]
                         }]} />
                     </View>
