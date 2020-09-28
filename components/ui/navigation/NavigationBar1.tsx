@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Animated, StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import Animated, { Easing } from 'react-native-reanimated';
 import NavButton1 from '../buttons/NavButton1';
 import { menuItems } from '../../../data/components/ui/navigation/navigationbar1-data';
 import { useRoute } from '@react-navigation/native';
@@ -8,27 +9,46 @@ export interface NavigationBar1Props {
     navigation: any;
 };
 
-// let toggle: boolean = true;
+const { Value, timing } = Animated;
  
 const NavigationBar1: React.FC<NavigationBar1Props> = ({ navigation }) => {
     const [state, updateState] = useState({ xCoord: 0, width: 0, height: 0, index: 0 });
     const [isAnimating, updateIsAnimating] = useState(false);
 
-    const selectorAnim = useRef(new Animated.ValueXY()).current;
-    const widthAnim = useRef(new Animated.Value(0)).current;
-    const ballWidthAnim = useRef(new Animated.Value(10)).current;
-    const ballHeightAnim = useRef(new Animated.Value(10)).current;
+    const _selectorAnimX = useRef(new Value(0)).current;
+    const _widthAnim = useRef(new Value(0)).current;
 
-    const menuHeight = useRef(new Animated.Value(73)).current;
-    const menuFade = useRef(new Animated.Value(1)).current;
-    const itemDetailOpacity = useRef(new Animated.Value(0)).current;
-    const itemDetailMargin = useRef(new Animated.ValueXY()).current;
+
+    const _ballWidthAnim = useRef(new Value(10)).current;
+    const _ballHeightAnim = useRef(new Animated.Value(10)).current;
+
+    const _menuHeight = useRef(new Value(73)).current;
+    const _menuFade = useRef(new Value(1)).current;
+    const _itemDetailOpacity = useRef(new Value(0)).current;
+    const _itemDetailMargin = useRef(new Value(0)).current;
 
 
     const onPressMenuItem = (state: any, route: string) => {
         if(isAnimating) return;
         navigation.navigate(route);
         updateState(state);
+    };
+
+    const parallelize = (
+        animations: Animated.BackwardCompatibleWrapper[],
+        cb?: { onStart?: () => void; onDone?: () => void },
+    ) => {
+        cb?.onStart && cb.onStart();
+        const promises = animations.map(a => {
+            return new Promise(resolve => {
+                a.start(() => {
+                    resolve();
+                });
+            });
+        });
+        return Promise.all(promises).then(() => {
+            cb?.onDone && cb.onDone();
+        });
     };
 
     const animate = (layout: any): void => {
@@ -38,78 +58,130 @@ const NavigationBar1: React.FC<NavigationBar1Props> = ({ navigation }) => {
     };
 
     const shrinkBallAnimation = (xCoord: number, width: number, height: number) => {
-        Animated.parallel([
-            Animated.timing(ballWidthAnim, {
-                useNativeDriver: false,
-                toValue: 10,
-                duration: 250
-            }),
-            Animated.timing(ballHeightAnim, {
-                useNativeDriver: false,
-                toValue: 10,
-                duration: 250
-            })
-        ]).start(() => moveBallAnimation(xCoord, width, height));
+        const _config_BallWidthAnim = {
+            duration: 250,
+            toValue: 10,
+            easing: Easing.inOut(Easing.ease),
+        };
+        const _config_BallHeightAnim = {
+            duration: 250,
+            toValue: 10,
+            easing: Easing.inOut(Easing.ease),
+        };
+        
+        parallelize(
+            [
+                timing(_ballWidthAnim, _config_BallWidthAnim),
+                timing(_ballHeightAnim, _config_BallHeightAnim),
+            ],
+            {
+                onStart: () => {
+                    console.log('started');
+                },
+                onDone: () => {
+                    moveBallAnimation(xCoord, width, height)
+                },
+            },
+        );
     };
 
     const moveBallAnimation = (xCoord: number, width: number, height: number) => {
-        Animated.parallel([
-            Animated.spring(selectorAnim, {
-                useNativeDriver: false,
-                toValue: {
-                    x: xCoord,
-                    y: 0
+        const _configSelectorAnimX = {
+            duration: 100,
+            toValue: xCoord + 22,
+            easing: Easing.inOut(Easing.ease),
+        };
+
+        const _configWidthAnim = {
+            duration: 250,
+            toValue: width - 44,
+            easing: Easing.inOut(Easing.ease),
+        };
+
+        parallelize(
+            [
+                timing(_selectorAnimX, _configSelectorAnimX),
+                timing(_widthAnim, _configWidthAnim),
+            ],
+            {
+                onStart: () => {
+                    console.log('started');
                 },
-                speed: 20,
-            }),
-            Animated.timing(widthAnim, {
-                useNativeDriver: false,
-                toValue: width,
-                duration: 250
-            })
-        ]).start(expandBallAnimation(width, height));
+                onDone: () => {
+                    expandBallAnimation(width, height);
+                },
+            },
+        );
     };
 
     const expandBallAnimation = (width: number, height: number): any => {
-        Animated.parallel([
-            Animated.timing(ballWidthAnim, {
-                useNativeDriver: false,
-                toValue: width,
-                duration: 250
-            }),
-            Animated.timing(ballHeightAnim, {
-                useNativeDriver: false,
-                toValue: height,
-                duration: 250
-            })
-        ]).start(() => updateIsAnimating(false));
+        const _config_BallWidthAnim = {
+            duration: 250,
+            toValue: width,
+            easing: Easing.inOut(Easing.ease),
+        };
+        const _config_BallHeightAnim = {
+            duration: 250,
+            toValue: height,
+            easing: Easing.inOut(Easing.ease),
+        };
+
+        parallelize(
+            [
+                timing(_ballWidthAnim, _config_BallWidthAnim),
+                timing(_ballHeightAnim, _config_BallHeightAnim),
+            ],
+            {
+                onStart: () => {
+                    console.log('started');
+                },
+                onDone: () => {
+                    updateIsAnimating(false);
+                },
+            },
+        );
     };
 
     const toggleMenuAnimation = (isToggled?: boolean) => {
         const toggle = isToggled;
 
-        Animated.parallel([
-            Animated.timing(menuHeight, {
-                useNativeDriver: false,
-                toValue: !toggle ? 371 : 73,
-                duration: 250
-            }),
-            Animated.timing(menuFade, {
-                useNativeDriver: false,
-                toValue: toggle ? 1 : 0,
-                duration: 250
-            }),
-            Animated.timing(itemDetailOpacity, {
-                useNativeDriver: true,
-                toValue: toggle ? 0 : 1,
-                duration: 250
-            }),
-            Animated.timing(itemDetailMargin, {
-                useNativeDriver: true,
-                toValue: toggle ? { x: 0, y: 0 } : { x: 0, y: -73 },
-                duration: 250
-            })
-        ]).start();
+        const _config_MenuHeight = {
+            duration: 250,
+            toValue: !toggle ? 371 : 73,
+            easing: Easing.inOut(Easing.ease),
+        };
+        const _config_MenuFade = {
+            duration: 250,
+            toValue: toggle ? 1 : 0,
+            easing: Easing.inOut(Easing.ease),
+        };
+        const _config_ItemDetailOpacity = {
+            duration: 250,
+            toValue: toggle ? 0 : 1,
+            easing: Easing.inOut(Easing.ease),
+        };
+        const _config_ItemDetailMarginY = {
+            duration: 250,
+            toValue: toggle ? 0 : -73 ,
+            easing: Easing.inOut(Easing.ease),
+        };
+
+        parallelize(
+            [
+                timing(_menuHeight, _config_MenuHeight),
+                timing(_menuFade, _config_MenuFade),
+                timing(_itemDetailOpacity, _config_ItemDetailOpacity),
+                timing(_itemDetailMargin, _config_ItemDetailMarginY),
+            ],
+            {
+                onStart: () => {
+                    console.log('started');
+                },
+                onDone: () => {
+                    console.log('finished')
+                },
+            },
+        );
     };
 
     const route = useRoute();
@@ -124,8 +196,8 @@ const NavigationBar1: React.FC<NavigationBar1Props> = ({ navigation }) => {
     },[route]);
 
     return ( 
-        <Animated.View style={[styles.container, { height: menuHeight }]}>
-            <Animated.View style={[styles.contentJustifyContainer, { opacity: menuFade }]}>
+        <Animated.View style={[styles.container, { height: _menuHeight }]}>
+            <Animated.View style={[styles.contentJustifyContainer, { opacity: _menuFade }]}>
                 <View style={styles.innerContainer}>
                     {menuItems.map(({index, title, icon, route}) => <NavButton1 
                             key={index} 
@@ -140,20 +212,18 @@ const NavigationBar1: React.FC<NavigationBar1Props> = ({ navigation }) => {
                         />
                     )}
                 </View>
-                <Animated.View style={[styles.markerContainer, { width: widthAnim }, {
+                <Animated.View style={[styles.markerContainer, { width: _widthAnim }, {
                     transform: [
-                        { translateX: selectorAnim.x },
-                        { translateY: selectorAnim.y }
+                        { translateX: _selectorAnimX },
                     ]
                 }]}>
-                    <Animated.View style={[styles.marker, { width: ballWidthAnim, height: ballHeightAnim }]} />
+                    <Animated.View style={[styles.marker, { width: _ballWidthAnim, height: _ballHeightAnim }]} />
                 </Animated.View>
             </Animated.View>
             <Animated.View style={[
-                { opacity: itemDetailOpacity, padding: 28 }, {
+                { opacity: _itemDetailOpacity, padding: 28 }, {
                 transform: [
-                    { translateX: itemDetailMargin.x },
-                    { translateY: itemDetailMargin.y }
+                    { translateY: _itemDetailMargin }
                 ]
             }]}>
                 <Text style={{ fontSize: 40, paddingRight: 40, color: '#222B45' }}>Oversized cotton coat</Text>
