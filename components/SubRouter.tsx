@@ -1,5 +1,6 @@
 import React from 'react';
-import { Animated, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Animated from 'react-native-reanimated';
 import NavigationBar1 from './ui/navigation/NavigationBar1';
 import { useColorAnimations } from '../animations/';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,14 +16,31 @@ export interface SubRouterProps {
 const SubRouter: React.SFC<SubRouterProps> = ({ navigation }) => {
     const { colorInterpolation } = useColorAnimations();
     const insets = useSafeAreaInsets();
+    const options = {
+        navigatorOptions: {
+            cardStyle: {
+                backgroundColor: 'rgba(0,0,0,0)'
+            }
+        },
+        screenOptions: {
+            headerShown: false, 
+            animationEnabled: false
+        }
+    };
+    const insetStyles = {
+        paddingBottom: insets.bottom
+    }
+    const anmiationStyles = {
+        backgroundColor: colorInterpolation
+    }
 
     return ( 
         <>
-            <View style={[{ flex: 1, paddingBottom: insets.bottom, backgroundColor: '#FFFFFF' }]}>
-                <Animated.View style={[styles.container, { backgroundColor: colorInterpolation }]}>
-                    <Stack.Navigator>
-                        <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animationEnabled: false }} />
-                        <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false, animationEnabled: false }} />
+            <View style={[styles.animatedContainer, insetStyles]}>
+                <Animated.View style={[styles.container, anmiationStyles]}>
+                    <Stack.Navigator screenOptions={options.navigatorOptions}>
+                        <Stack.Screen name="Home" component={Home} options={options.screenOptions} />
+                        <Stack.Screen name="ItemDetail" component={ItemDetail} options={options.screenOptions} />
                     </Stack.Navigator>
                     <NavigationBar1 navigation={navigation} />
                 </Animated.View>
@@ -33,9 +51,12 @@ const SubRouter: React.SFC<SubRouterProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,        
+        backgroundColor: '#FFFFFF' 
+    },
+    animatedContainer: {
         flex: 1,
-        height: '100%',
-        backgroundColor: '#EBC3CB'
+        backgroundColor: '#FFFFFF'
     }
 });
  
