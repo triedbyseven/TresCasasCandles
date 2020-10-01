@@ -30,7 +30,7 @@ const useColorAnimations: any = () => {
 
     const opacityInterpolation = interpolate(_color1, {
         inputRange: [0, 1],
-        outputRange: [1.0, 0.0]
+        outputRange: [1, 0]
     });
     
     const animateColor = (animateChoice: boolean) => {
