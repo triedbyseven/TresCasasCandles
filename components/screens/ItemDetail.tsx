@@ -11,6 +11,9 @@ export interface ItemDetailProps {
 const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
     const { animateColor } = useColorAnimations();
     const insets = useSafeAreaInsets();
+    const insetStyles = {
+        paddingTop: insets.top
+    }
 
     useEffect(() => {
         return () => animateColor(false);
@@ -18,8 +21,8 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
 
     return (
         <>
-            <StatusBar barStyle="dark-content" backgroundColor='#EDDEE1' />
-            <View style={{ flex: 0, paddingTop: insets.top, backgroundColor: '#EDDEE1' }} /> 
+            <StatusBar barStyle="dark-content" backgroundColor='rgba(0,0,0,0)' translucent={true} />
+            <View style={[styles.insetContainer, insetStyles]} /> 
             <View style={styles.container}> 
                 <View style={styles.headerContainer}>
                     {Platform.OS === 'ios' ? (
@@ -28,7 +31,6 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
                             style={styles.icon}
                             onPress={() => {
                                 navigation.goBack();
-                                animateColor(false);
                             }}
                         >
                             <Svg width={20} height={16} viewBox="0 0 20 16">
@@ -47,12 +49,11 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
                             </Svg>
                         </TouchableOpacity>
                     ) : (
-                            <View style={styles.icon}>
+                        <View style={styles.icon}>
                             <TouchableNativeFeedback
                                 onPress={() => {
                                     setTimeout(() => {
                                         navigation.goBack();
-                                        animateColor(false);
                                     }, 150);
                                 }}
                                 useForeground={true}
@@ -87,10 +88,14 @@ const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
 export default ItemDetail;
 
 const styles = StyleSheet.create({
+    insetContainer: {
+        flex: 0,
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
     container: {
         flex: 1,
         height: '100%',
-        backgroundColor: '#EDDEE1'
+        paddingBottom: 35,
     },
     headerContainer: {
         height: 32,
