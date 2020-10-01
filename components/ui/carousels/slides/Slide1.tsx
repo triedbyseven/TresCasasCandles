@@ -7,9 +7,10 @@ export interface Slide1Props {
     id: number;
     name: string;
     setAnimate: any;
+    animateMenu: any;
 }
  
-const Slide1: React.SFC<Slide1Props> = ({ id, name, setAnimate }) => {
+const Slide1: React.SFC<Slide1Props> = ({ id, name, setAnimate, animateMenu }) => {
     const navigation = useNavigation();
 
     return ( 
@@ -17,6 +18,7 @@ const Slide1: React.SFC<Slide1Props> = ({ id, name, setAnimate }) => {
             activeOpacity={1}
             onPress={() => {
                 setAnimate(true);
+                animateMenu(true);
                 navigation.navigate('ItemDetail');
             }}
         >
