@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Platform, StatusBar, StyleSheet, TouchableOpacity, TouchableNativeFeedback, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path, Use, Defs} from 'react-native-svg';
-import { useColorAnimations } from '../../animations';
+import { useColorAnimations, useNavigationAnimations } from '../../animations';
 
 export interface ItemDetailProps {
     navigation: any;
@@ -10,13 +10,17 @@ export interface ItemDetailProps {
  
 const ItemDetail: React.SFC<ItemDetailProps> = ({ navigation }) => {
     const { animateColor } = useColorAnimations();
+    const { animateMenu } = useNavigationAnimations();
     const insets = useSafeAreaInsets();
     const insetStyles = {
         paddingTop: insets.top
     }
 
     useEffect(() => {
-        return () => animateColor(false);
+        return () => {
+            animateColor(false);
+            animateMenu(false);
+        };
     }, []);
 
     return (
