@@ -15,23 +15,31 @@ import { NavigationContainer } from '@react-navigation/native';
 import { WithApolloProvider } from './cache/setup';
 import Index from './components/Index';
 
+// const App = () => {
+//   const syncAndroidNativeBarColor = async () => {
+//     try {
+//       await changeNavigationBarColor('#ffffff', true, true);
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   };
+
+//   useEffect(() => {
+//     syncAndroidNativeBarColor();
+//   }, []);
+
+//   return (
+//     <NavigationContainer>
+//         <Index />
+//     </NavigationContainer>
+//   );
+// };
+
+import { View } from 'react-native';
+
 const App = () => {
-  const syncAndroidNativeBarColor = async () => {
-    try {
-      await changeNavigationBarColor('#ffffff', true, true);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    syncAndroidNativeBarColor();
-  }, []);
-
   return (
-    <NavigationContainer>
-        <Index />
-    </NavigationContainer>
+    <View />
   );
 };
 
